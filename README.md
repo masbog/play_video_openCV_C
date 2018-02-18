@@ -7,7 +7,7 @@ libopencv2-dev
 $ sudo apt-get install libopencv2-dev
 
 # Compile
-$ g++ -o playvideo -lopencv_core -lopencv_video playvideo.cpp
+$ g++ -o playvideo -lopencv_core -lopencv_video -lopencv_highgui playvideo.cpp
 
 # Run ?
 $ ./playvideo
