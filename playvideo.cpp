@@ -14,28 +14,31 @@
 #include "opencv2/opencv.hpp"
 int main(int argc, char** argv)
 {
-// If you want to original size window by video size change CV_WINDOW_NORMAL to CV_WINDOW_AUTOSIZE
-cvNamedWindow("Prototype", CV_WINDOW_NORMAL);
+	if(argv[1] == NULL){
+		std::cout << "Please profide video path. Example: /home/pi/Desktop/sample.mp4\n";
+		return 0;
+	}else{
+		// If you want to original size window by video size change CV_WINDOW_NORMAL to CV_WINDOW_AUTOSIZE
+        	cvNamedWindow("Prototype", CV_WINDOW_NORMAL);
 
-// Comment code below if CV_WINDOW_AUTOSIZE
-cvSetWindowProperty("Prototype", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+	        // Comment code below if CV_WINDOW_AUTOSIZE
+        	cvSetWindowProperty("Prototype", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
-//  Change sample.mp4 with your sample video
-CvCapture* capture = cvCreateFileCapture("sample.mp4");
-IplImage* frame = NULL;
+	        //  Change sample.mp4 with your sample video
+		CvCapture* capture = cvCreateFileCapture(argv[1]);
+		IplImage* frame = NULL;
 
-while(1) {
+		while(1) {
+		    	frame = cvQueryFrame(capture);
+	    		if (!frame) break;
+		    	cvShowImage("Prototype", frame);
+		    	char c = cvWaitKey(33);
+	    		if (c == 27) break;
+		}
 
-    frame = cvQueryFrame(capture);
-    //std::cout << "Inside loop\n";
-    if (!frame)
-        break;
-    cvShowImage("Prototype", frame);
-    char c = cvWaitKey(33);
-    if (c == 27) break;
-}
-cvReleaseCapture(&capture);
-cvDestroyWindow("Prototype");
-std::cout << "End of Demo Prototype!";
-return 0;
+		cvReleaseCapture(&capture);
+		cvDestroyWindow("Prototype");
+		std::cout << "End of Demo Prototype!\n";
+		return 0;
+	}
 }
